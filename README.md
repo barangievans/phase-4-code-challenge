@@ -1,10 +1,15 @@
 Podcast API
+
 This is a Flask-based RESTful API for managing podcast episodes, guests, and appearances. It provides endpoints to create, retrieve, and manage podcast-related data.
 
 Table of Contents
+
 Installation
+
 Usage
+
 API Endpoints
+
 GET /
 GET /episodes
 GET /episodes/<id>
@@ -17,35 +22,49 @@ Installation
 Clone the repository:
 
 bash
+
 Copy code
 git clone https://github.com/barangievans/phase-4-code-challenge.git
 cd phase-4-code-challenge
 Create a virtual environment:
 
 bash
+
 Copy code
 python3 -m venv venv
 source venv/bin/activate
 Install dependencies:
 
 bash
+
 Copy code
+
 pip install -r requirements.txt
+
 Set up the database (SQLite is used in this project):
 
 bash
+
 Copy code
+
 export FLASK_APP=app
+
 flask run
+
 Usage
+
 Start the Flask server:
 
 bash
+
 Copy code
+
 flask run
+
 The API will be accessible at http://127.0.0.1:5000.
 
 API Endpoints
+
 GET /
 Returns a welcome message and available endpoints.
 
