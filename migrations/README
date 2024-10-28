@@ -1,0 +1,182 @@
+# Phase 4 Code Challenge: Late Show API
+
+## Overview
+This project implements a Flask API for a Late Show, showcasing knowledge of models, relationships, validations, and RESTful routes. The API facilitates the management of episodes, guests, and their appearances, providing an interface for querying and creating data.
+
+## Repository Setup
+1. **Create a Private Repository**: Initialize a new private repository on GitHub.
+2. **Collaborator**: Add your team member as a collaborator to the repository.
+3. **Push Code**: Push your solution to this repository and submit it for grading.
+
+## Postman Collection
+A Postman collection is provided to test the API endpoints. You can download it and import it into your Postman application.
+
+### How to Import Postman Collection
+1. Open Postman.
+2. Select `Upload Files`.
+3. Navigate to the repository folder and select `challenge-4-lateshow.postman_collection.json` to import.
+
+## Project Structure
+Project Structure
+Your repository should have these files and folders:
+
+bash
+Copy code
+/your-repo
+├── app.py          # Main application file
+├── models.py       # File for defining data models
+├── migrations/     # Folder for database migration files
+├─ seed.py         # File to populate the database with initial data
+├── requirements.txt # File listing project dependencies
+└── venv/           # Folder for the virtual environment
+
+markdown
+Copy code
+
+## Models
+### Data Model
+The following models are implemented:
+- **Episode**: Represents an episode of the Late Show.
+- **Guest**: Represents guests appearing on the show.
+- **Appearance**: Represents the relationship between `Episode` and `Guest`.
+
+### Relationships
+- An `Episode` has many `Guest`s through `Appearance`.
+- A `Guest` has many `Episode`s through `Appearance`.
+- An `Appearance` belongs to both a `Guest` and an `Episode`.
+
+### Cascading Deletes
+Configured to ensure that when an `Episode` or `Guest` is deleted, all related `Appearance` records are also deleted.
+
+### Serialization
+Set serialization rules to limit recursion depth and ensure proper data structure in JSON responses.
+
+## Database Setup
+- Run migrations to set up the database schema.
+- Seed the database using the provided CSV file. If you encounter issues with the seed file, you may generate your own seed data.
+
+## Validations
+The `Appearance` model includes validations to ensure:
+- The `rating` must be between 1 and 5 (inclusive).
+
+## API Routes
+### Endpoints
+The API includes the following routes:
+
+#### 1. **GET /episodes**
+Returns a list of all episodes.
+
+**Response Format:**
+```json
+[
+  {
+    "id": 1,
+    "date": "1/11/99",
+    "number": 1
+  },
+  {
+    "id": 2,
+    "date": "1/12/99",
+    "number": 2
+  }
+]
+2. GET /episodes/
+Fetches a specific episode by its ID.
+
+Response Format (if found):
+
+json
+Copy code
+{
+  "id": 1,
+  "date": "1/11/99",
+  "number": 1,
+  "appearances": [
+      {
+          "episode_id": 1,
+          "guest": {
+              "id": 1,
+              "name": "Michael J. Fox",
+              "occupation": "actor"
+          },
+          "guest_id": 1,
+          "id": 1,
+          "rating": 4
+      }
+  ]
+}
+Response Format (if not found):
+
+json
+Copy code
+{
+  "error": "Episode not found"
+}
+3. GET /guests
+Returns a list of all guests.
+
+Response Format:
+
+json
+Copy code
+[
+  {
+    "id": 1,
+    "name": "Michael J. Fox",
+    "occupation": "actor"
+  },
+  {
+    "id": 2,
+    "name": "Sandra Bernhard",
+    "occupation": "Comedian"
+  },
+  {
+    "id": 3,
+    "name": "Tracey Ullman",
+    "occupation": "television actress"
+  }
+]
+4. POST /appearances
+Creates a new appearance associated with an existing episode and guest.
+
+Request Body:
+
+json
+Copy code
+{
+  "rating": 5,
+  "episode_id": 100,
+  "guest_id": 123
+}
+Response Format (if created successfully):
+
+json
+Copy code
+{
+  "id": 162,
+  "rating": 5,
+  "guest_id": 3,
+  "episode_id": 2,
+  "episode": {
+    "date": "1/12/99",
+    "id": 2,
+    "number": 2
+  },
+  "guest": {
+    "id": 3,
+    "name": "Tracey Ullman",
+    "occupation": "television actress"
+  }
+}
+Response Format (if not created successfully):
+
+json
+Copy code
+{
+ "errors": ["validation errors"]
+}
+Final Checks
+Before submission, ensure:
+
+Your code runs without errors.
+All routes function as expected.
